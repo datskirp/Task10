@@ -24,7 +24,9 @@ class CatalogController extends Controller
 
     public function index()
     {
-        return view('catalog', ['products' => $this->product->all()]);
+        $products = $this->product->getSelected()->paginate();
+
+        return view('catalog', ['products' => $products, 'categories' => $this->product::select('category')->distinct()->get()]);
     }
 
     /**

@@ -19,7 +19,7 @@ Route::resources([
     'products' => ProductController::class,
     'services' => ServiceController::class,
 ]);
-Route::get('/', [CatalogController::class, 'index']);
+Route::get('/', [CatalogController::class, 'index'])->name('catalog.index');
 Route::get('/card/{id}', [CatalogController::class, 'card'])->name('catalog.card');
 Route::get('/add-service/{id}', [CatalogController::class, 'addService'])->name('catalog.add-service');
 Route::get('/remove-service/{id}', [CatalogController::class, 'removeService'])->name('catalog.remove-service');
