@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use ProductExport;
+use App\Exports\ProductsExport;
 use Aws\S3\S3Client;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +29,7 @@ class ProductController extends Controller
     public function export()
     {
         $s3Key = 'products_' . time() . '.csv';
-        $productsCsv = Excel::download(new ProductExport($this->product), 'contents', \Maatwebsite\Excel\Excel::CSV);
+        $productsCsv = Excel::download(new ProductsExport($this->products), 'contents', \Maatwebsite\Excel\Excel::CSV);
         Storage::disk('s3')->put($s3Key, $productsCsv->getFile()->getContent());
 
     }
