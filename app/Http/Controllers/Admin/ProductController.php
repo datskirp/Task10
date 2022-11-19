@@ -29,7 +29,7 @@ class ProductController extends Controller
     public function export()
     {
         $s3Key = 'products_' . time() . '.csv';
-        $productsCsv = Excel::download(new ProductsExport($this->products), 'contents', \Maatwebsite\Excel\Excel::CSV);
+        $productsCsv = Excel::download(new ProductsExport(), 'contents', \Maatwebsite\Excel\Excel::CSV);
         Storage::disk('s3')->put($s3Key, $productsCsv->getFile()->getContent());
 
     }
