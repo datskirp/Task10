@@ -11,9 +11,11 @@
 <div class="container">
     <div><h1 class="text-center text-xl">Catalog</h1></div>
     <div class="flex flex-row justify-center items-start">
-        <div class="mt-6 mx-2 text-left">
+        <div class="mt-6 mx-2  text-left">
             <p class="text-xl font-semibold underline">Filtering and Sorting options</p><br>
-            <p><a class="text-blue-500 underline" href="{{ route('catalog.index') }}">RESET ALL</a> </p>
+            <p><a class="text-blue-500 underline" href="{{ route('catalog.index') }}">
+                    RESET ALL
+                </a> </p>
             <form action="{{ route('catalog.index') }}" method="get">
                 <p>Search product name:</p>
                 <div>
@@ -27,32 +29,38 @@
                 <p>Select category:</p>
                 <div>
                     @foreach($categories as $category)
-                        <input type="checkbox" name="filter[category]" value="{{ $category['category'] }}">&nbsp;{{ $category['category'] }}<br>
+                        <input type="checkbox" name="filter[category][]" value="{{ $category['category'] }}">&nbsp;{{ $category['category'] }}<br>
                     @endforeach
                 </div>
                 <hr><br>
-                <div>
-
-                    <ul>Sort names:
-                        <li><input type="radio" name="sort" value="name">&nbsp;Asc</li>
-                        <li><input type="radio" name="sort" value="-name">&nbsp;Desc</li>
-                    </ul>
-                </div>
-                <br>
-                <div>
-
-                    <ul>Sort cost:
-                        <li><input type="radio" name="sort" value="cost">&nbsp;Low</li>
-                        <li><input type="radio" name="sort" value="-cost">&nbsp;High</li>
-                    </ul>
-                </div>
-                <br>
                 <input class="button bg-gray-300 py-1 px-2" type="submit" value="Show">
             </form>
         </div>
-        <div class="w-auto px-8 py-4 mt-4 text-left bg-white shadow-lg">
-            <div class="flex flex-row justify-center">
-                <table class="text-center align-center border border-2">
+        <div class="w-2/3 px-8 py-4 mt-4 text-left bg-white shadow-lg">
+            <div class="flex flex-row w-full justify-center">
+                <table class="w-full text-center align-center border border-2">
+                    <tr class="border border-2">
+                        <td class="px-3 border border-1">
+                            <a class="text-blue-500 underline" href="{{ route('catalog.index'). '?' . request()->getQueryString() . '&' . 'sort=name' }}">Asc</a>
+                            |
+                            <a class="text-blue-500 underline" href="{{ route('catalog.index'). '?' . request()->getQueryString() . '&' . 'sort=-name' }}">Desc</a>
+                        </td>
+                        <td class="px-3 border border-1">
+                            <a class="text-blue-500 underline" href="{{ route('catalog.index'). '?' . request()->getQueryString() . '&' . 'sort=manufacturer' }}">Asc</a>
+                            |
+                            <a class="text-blue-500 underline" href="{{ route('catalog.index'). '?' . request()->getQueryString() . '&' . 'sort=-manufacturer' }}">Desc</a>
+                        </td>
+                        <td class="px-3 border border-1">
+                            <a class="text-blue-500 underline" href="{{ route('catalog.index'). '?' . request()->getQueryString() . '&' . 'sort=category' }}">Asc</a>
+                            |
+                            <a class="text-blue-500 underline" href="{{ route('catalog.index'). '?' . request()->getQueryString() . '&' . 'sort=-category' }}">Desc</a>
+                        </td>
+                        <td class="px-3 border border-1">
+                            <a class="text-blue-500 underline" href="{{ route('catalog.index'). '?' . request()->getQueryString() . '&' . 'sort=cost' }}">Low</a>
+                            |
+                            <a class="text-blue-500 underline" href="{{ route('catalog.index'). '?' . request()->getQueryString() . '&' . 'sort=-cost' }}">High</a>
+                        </td>
+                    </tr>
                     <tr class="border border-2 bg-gray-300">
                         <th class="px-3 border border-1">Product name</th>
                         <th class="px-3 border border-1">Manufacturer</th>
@@ -69,6 +77,8 @@
                     @endforeach
                 </table>
             </div>
+            <br>
+            {{ $products->links() }}
         </div>
     </div>
 </div>

@@ -4,14 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class Product extends Model
 {
     use HasFactory;
 
-    const PRODUCT_FILTERS = ['name', 'manufacturer', 'category'];
-    const PRODUCT_SORT = ['name', 'manufacturer', 'cost', 'category'];
+    public const PRODUCT_FILTERS = ['name', 'manufacturer', 'category'];
+    public const PRODUCT_SORT = ['name', 'manufacturer', 'cost', 'category'];
     protected QueryBuilder $query;
     public $timestamps = false;
     protected $fillable = [
@@ -22,10 +23,12 @@ class Product extends Model
         'category',
     ];
 
-    public function getSelected()
+    public function checkForFilters()
     {
         return QueryBuilder::for($this)
             ->allowedFilters(self::PRODUCT_FILTERS)
-            ->allowedSorts(self::PRODUCT_SORT);
+            ->allowedSorts(self::PRODUCT_SORT)
+            ->paginate()
+            ->withQueryString();
     }
 }
