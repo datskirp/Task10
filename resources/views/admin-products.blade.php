@@ -15,6 +15,12 @@
                 Main panel
             </button>
         </a>
+        <a href="{{ route('admin.products.export') }}">
+            <button
+                class="text-l w-40 bg-blue-500 hover:border-gray-900 text-white font-bold p-2 mx-5 border-2 rounded">
+                Export products
+            </button>
+        </a>
     </div>
     <br>
     <div class="flex flex-row justify-center items-top">

@@ -25,7 +25,8 @@ Route::get('/add-service/{id}', [CatalogController::class, 'addService'])->name(
 Route::get('/remove-service/{id}', [CatalogController::class, 'removeService'])->name('catalog.remove-service');
 Route::get('/admin', [PanelController::class, 'index'])->name('admin');
 Route::get('/admin/products', [App\Http\Controllers\Admin\ProductController::class, 'index'])->name('admin.products.index');
-Route::get('admin/services', [App\Http\Controllers\Admin\ServiceController::class, 'index'])->name('admin.services.index');
+Route::get('/admin/services', [App\Http\Controllers\Admin\ServiceController::class, 'index'])->name('admin.services.index');
+Route::get('/admin/products/export', [App\Http\Controllers\Admin\ProductController::class, 'export'])->name('admin.products.export');
 //Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 //Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
 //Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
