@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Exports\ProductsExport;
-use Aws\S3\S3Client;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use Aws\Ses\SesClient;
+use Aws\Exception\AwsException;
 
 class ProductController extends Controller
 {
@@ -28,7 +27,31 @@ class ProductController extends Controller
 
     public function export()
     {
-        return $this->products->export();
+        $filename = 'products_' . time() . '.csv';
+        $sentStatus = $this->products->export($filename);
+        if($sentStatus) {
+            Mail::send([], [], function ($message) use ($filename) {
+                $message->to('admin@products.com')
+                    ->subject('Bucket ' . env('AWS_BUCKET'))
+                    ->from('test12@gmail.com')
+                    ->text(sprintf(
+                        'File %s was uploaded to the bucket',
+                        $filename));
+            });
+
+            return redirect(route('admin.products.index'))->with(
+                'success',
+                sprintf(
+                    'Export was successful. Stored in S3 bucket - %s, file name is: %s',
+                    env('AWS_BUCKET'),
+                    $filename
+                )
+            );
+        }
+        return redirect(route('admin.products.index'))->with(
+            'error',
+            'Export was not successful');
+
     }
 
 }

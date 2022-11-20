@@ -21,22 +21,10 @@ class Product extends Model
         'category',
     ];
 
-    public function export()
+    public function export(string $filename)
     {
-        $s3Key = 'products_' . time() . '.csv';
         $productsCsv = Excel::download(new ProductsExport(), 'contents', \Maatwebsite\Excel\Excel::CSV);
-        $sentStatus = Storage::disk('s3')->put($s3Key, $productsCsv->getFile()->getContent());
-        return $sentStatus ?
-            redirect(route('admin.products.index'))->with(
-                'success',
-                sprintf(
-                    'Export was successful. Stored in S3 bucket - %s, file name is: %s',
-                    env('AWS_BUCKET'),
-                    $s3Key
-                )
-            ) :
-            redirect(route('admin.products.index'))->with(
-                'error',
-                'Export was not successful');
+
+        return Storage::disk('s3')->put($filename, $productsCsv->getFile()->getContent());
     }
 }
