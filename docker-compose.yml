@@ -105,6 +105,7 @@ services:
             - sail
     localstack:
         image: 'localstack/localstack:latest'
+        user: '1000:1000'
         ports:
             - "172.17.0.1:4566:4566"            # LocalStack Gateway
         environment:
