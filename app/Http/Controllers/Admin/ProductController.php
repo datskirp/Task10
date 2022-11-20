@@ -30,7 +30,12 @@ class ProductController extends Controller
     {
         $s3Key = 'products_' . time() . '.csv';
         $productsCsv = Excel::download(new ProductsExport(), 'contents', \Maatwebsite\Excel\Excel::CSV);
-        Storage::disk('s3')->put($s3Key, $productsCsv->getFile()->getContent());
+        try {
+            Storage::disk('s3')->files();
+        } catch (\Exception $e) {
+            dd($e);
+        }
+        dd(Storage::disk('s3')->put($s3Key, 'hello'));
 
     }
 
