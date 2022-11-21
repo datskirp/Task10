@@ -33,7 +33,7 @@ class ProductController extends Controller
             Mail::send([], [], function ($message) use ($filename) {
                 $message->to('admin@products.com')
                     ->subject('Bucket ' . env('AWS_BUCKET'))
-                    ->from('test12@gmail.com')
+                    ->from('task12@gmail.com')
                     ->text(sprintf(
                         'File %s was uploaded to the bucket',
                         $filename));
