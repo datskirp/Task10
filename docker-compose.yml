@@ -113,6 +113,7 @@ services:
             - DOCKER_HOST=unix:///var/run/docker.sock
         volumes:
             - "./.localstack:/var/lib/localstack"
+            - "./.localstack/init_script:/docker-entrypoint-initaws.d"
             - "/var/run/docker.sock:/var/run/docker.sock"
 networks:
     sail:
