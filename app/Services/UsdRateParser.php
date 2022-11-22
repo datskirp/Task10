@@ -27,7 +27,7 @@ class UsdRateParser
         foreach (self::QUOTE_PROVIDERS as $provider) {
             $rate = $this->resolveRate($provider[0], $provider[1]);
             if ($rate) {
-                return (float) $rate;
+                return $rate;
             }
         }
 

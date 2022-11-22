@@ -62,7 +62,16 @@
                         </div>
                         <br>
                         <div>
-                            <p class="text-2xl font-semibold" >Total: $<span>{{ $card->getTotalPrice() }}</span></p>
+                            <p class="text-2xl font-semibold" >
+                                Total: BYN
+                                <span>{{ $card->getTotalPrice() }}</span>
+                                <span> (USD
+                                    @if($usdRate == 0) {{ 'N/A' }}
+                                    @else {{ round($card->product->cost / $usdRate, 2) }}
+                                    @endif
+                                    )
+                                </span>
+                            </p>
                         </div>
                         <div class="mt-1 flow-root">
                             <span class="float-right"><a class="text-blue-700" href="/">Back to catalog</a></span>
