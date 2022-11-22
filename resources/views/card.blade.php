@@ -30,7 +30,7 @@
                             Release date: {{ $card->product->release }}
                         </div>
                         <div class="mt-1 text-lg font-semibold">
-                            ${{ $card->product->cost }}
+                            BYN {{ $card->product->cost }}
                         </div>
                         <br>
                         <div class="mt-1 text-lg">
@@ -48,7 +48,7 @@
                                 <tr>
                                     <td class="px-3">{{ $service->type }}</td>
                                     <td class="px-3">{{ $service->deadline }}</td>
-                                    <td class="px-3">${{ $service->cost }}</td>
+                                    <td class="px-3">BYN {{ $service->cost }}</td>
                                     <td class="px-3">
                                         @if(!isset($card->services[$service->id]))
                                             <a href="{{ route('catalog.add-service', $service->id) }}" class="text-blue-500">add</a>

@@ -6,25 +6,33 @@ use App\Models\Card;
 use App\Models\Product;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use App\Services\UsdRateParser;
 
 class CatalogController extends Controller
 {
     protected $product;
     protected $services;
+    protected $usdRate;
 
     /**
      * @param Product $product
      * @param Service $services
      */
-    public function __construct(Product $product, Service $services)
+    public function __construct(Product $product, Service $services, UsdRateParser $rateParser)
     {
         $this->product = $product;
         $this->services = $services;
+        $this->usdRate = $rateParser->getUsdQuote();
     }
 
-    public function index()
+    public function index(UsdRateParser $rateParser)
     {
-        return view('catalog', ['products' => $this->product->all()]);
+        return view(
+            'catalog',
+            [
+                'products' => $this->product->all(),
+                'usdRate' => $this->usdRate,
+            ]);
     }
 
     /**
@@ -41,6 +49,7 @@ class CatalogController extends Controller
         return view('card', [
             'card' => $card,
             'services' => $this->services->where('category', $product->category)->get(),
+            'usdRate' => $this->usdRate,
         ]);
     }
 
