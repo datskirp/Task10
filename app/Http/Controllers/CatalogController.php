@@ -25,7 +25,7 @@ class CatalogController extends Controller
         $this->usdRate = $rateParser->getUsdQuote();
     }
 
-    public function index(UsdRateParser $rateParser)
+    public function index()
     {
         return view(
             'catalog',
