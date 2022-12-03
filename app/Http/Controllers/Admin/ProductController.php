@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
-use Aws\Ses\SesClient;
-use Aws\Exception\AwsException;
 
 class ProductController extends Controller
 {
@@ -29,14 +27,15 @@ class ProductController extends Controller
     {
         $filename = 'products_' . time() . '.csv';
         $sentStatus = $this->products->export($filename);
-        if($sentStatus) {
+        if ($sentStatus) {
             Mail::send([], [], function ($message) use ($filename) {
                 $message->to('admin@products.com')
                     ->subject('Bucket ' . env('AWS_BUCKET'))
                     ->from('task12@gmail.com')
                     ->text(sprintf(
                         'File %s was uploaded to the bucket',
-                        $filename));
+                        $filename
+                    ));
             });
 
             return redirect(route('admin.products.index'))->with(
@@ -48,10 +47,10 @@ class ProductController extends Controller
                 )
             );
         }
+
         return redirect(route('admin.products.index'))->with(
             'error',
-            'Export was not successful');
-
+            'Export was not successful'
+        );
     }
-
 }
