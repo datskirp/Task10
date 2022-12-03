@@ -103,6 +103,18 @@ services:
             - 8081:80
         networks:
             - sail
+    localstack:
+        image: 'localstack/localstack:latest'
+        user: '1000:1000'
+        ports:
+            - "172.17.0.1:4566:4566"            # LocalStack Gateway
+        environment:
+            - DEBUG=1
+            - DOCKER_HOST=unix:///var/run/docker.sock
+        volumes:
+            - "./.localstack:/var/lib/localstack"
+            - "./init_scripts:/docker-entrypoint-initaws.d"
+            - "/var/run/docker.sock:/var/run/docker.sock"
 networks:
     sail:
         driver: bridge
