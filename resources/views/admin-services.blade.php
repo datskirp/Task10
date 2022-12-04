@@ -1,6 +1,19 @@
 @extends('layouts.main')
 @section('content')
-    <div><h1 class="text-center text-xl">Admin Panel Services</h1></div><br>
+    <div class="w-auto mt-3 items-center justify-center flex flex-row">
+        <div class="px-4 text-center text-xl">Admin panel Services</div>
+        <div>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+
+                <x-dropdown-link :href="route('logout')"
+                                 onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                    {{ __('Log Out') }}
+                </x-dropdown-link>
+            </form>
+        </div>
+    </div><br>
     @include('partials.flash-message')
     <div class="flex flex-row justify-center items-top">
         <a href="{{ route('services.create') }}">
