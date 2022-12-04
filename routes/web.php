@@ -18,10 +18,12 @@ use App\Http\Controllers\Admin\PanelController;
 |
 */
 
-Route::resources([
-    'products' => ProductController::class,
-    'services' => ServiceController::class,
-]);
+Route::group(['middleware' => 'auth'], function () {
+    Route::resources([
+        'products' => ProductController::class,
+        'services' => ServiceController::class,
+    ]);
+});
 Route::get('/', [CatalogController::class, 'index']);
 Route::get('/card/{id}', [CatalogController::class, 'card'])->name('catalog.card');
 Route::get('/add-service/{id}', [CatalogController::class, 'addService'])->name('catalog.add-service');
