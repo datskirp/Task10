@@ -24,7 +24,10 @@ class CatalogController extends Controller
 
     public function index()
     {
-        return view('catalog', ['products' => $this->product->all()]);
+        return view('catalog', [
+            'products' => $this->product->checkForFilters(),
+            'categories' => $this->product::select('category')->distinct()->get()
+        ]);
     }
 
     /**
